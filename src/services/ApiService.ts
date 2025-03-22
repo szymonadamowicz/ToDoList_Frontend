@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import {
   fetchTasksApi,
   addTaskApi,
@@ -17,55 +17,62 @@ export type Task = {
 export const useTaskService = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [refresh, setRefresh] = useState(0);
+  const [isError, setIsError] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchTasks = async () => {
-      const res = await fetchTasksApi();
-      const data = await res.json();
+    const fetchData = async () => {
+      setIsLoading(true);
+
+      const data = await fetchTasksApi();
+
+      if (!data) {
+        setIsError(true);
+        setIsLoading(false)
+        return;
+      }
+
       setTasks(data);
+      setIsError(false);
+      setIsLoading(false)
     };
 
-    fetchTasks();
+    fetchData();
   }, [refresh]);
 
-  const addTask = async (): Promise<string> => {
-    const res = await addTaskApi();
-    const data = await res.json();
-    console.log(data.message);
-    setRefresh((prev) => prev + 1);
-    return data.message;
+  const refreshTasks = () => setRefresh((prev) => prev + 1);
+
+  const addTask = async () => {
+    const data = await addTaskApi();
+    if (!data) return setIsError(true);
+    refreshTasks();
   };
 
-  const removeTask = async (id: number): Promise<string> => {
-    const res = await removeTaskApi(id);
-    const data = await res.json();
-    console.log(data.message);
-    setRefresh((prev) => prev + 1);
-    return data.message;
+  const removeTask = async (id: number) => {
+    const data = await removeTaskApi(id);
+    if (!data) return setIsError(true);
+    refreshTasks();
   };
 
-  const swapTasks = async (id1: number, id2: number): Promise<string> => {
-    const res = await swapTasksApi(id1, id2);
-    const data = await res.json();
-    console.log(data.message);
-    setRefresh((prev) => prev + 1);
-    return data.message;
+  const swapTasks = async (id1: number, id2: number) => {
+    const data = await swapTasksApi(id1, id2);
+    if (!data) return setIsError(true);
+    refreshTasks();
   };
 
-  const setCompleted = async (id1: number): Promise<string> => {
-    const res = await setCompletedApi(id1);
-    const data = await res.json();
-    console.log(data.message);
-    setRefresh((prev) => prev + 1);
-    return data.message;
+  const setCompleted = async (id: number) => {
+    const data = await setCompletedApi(id);
+    if (!data) return setIsError(true);
+    refreshTasks();
   };
-
 
   return {
     tasks,
     addTask,
     removeTask,
     swapTasks,
-    setCompleted
+    setCompleted,
+    isError,
+    isLoading,
   };
 };
