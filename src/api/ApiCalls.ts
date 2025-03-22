@@ -29,3 +29,13 @@ export const swapTasksApi = (id1: number, id2: number) => {
     }
   );
 };
+
+export const setCompletedApi = (id1: number) => {
+  return fetch(
+    `https://localhost:7140/tasks/setCompleted?task1Id=${id1}`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+    }
+  );
+};

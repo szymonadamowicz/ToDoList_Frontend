@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useTaskService } from "../services/ApiService";
 
 const MainPage = () => {
-    const { tasks, addTask, removeTask, swapTasks } = useTaskService();
+    const { tasks, addTask, removeTask, swapTasks, setCompleted } = useTaskService();
     const [firstId, setFirstId] = useState("");
     const [secondId, setSecondId] = useState("");
 
@@ -17,6 +17,7 @@ const MainPage = () => {
             <button onClick={() => removeTask(task.id)}>Delete</button>
             {task.name} - {task.description} -{" "}
             {task.isCompleted ? "true" : "false"} - {task.id}
+            <button onClick={() => setCompleted(task.id)}>toggle complete</button>
           </li>
         ))}
       </ul>
@@ -29,6 +30,7 @@ const MainPage = () => {
       >
         Swap
       </button>
+      <button onClick={()=>console.log(tasks)}>console.log tasks data</button>
     </div>
   );
 };

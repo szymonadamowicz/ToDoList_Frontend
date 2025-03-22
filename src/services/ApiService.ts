@@ -4,6 +4,7 @@ import {
   addTaskApi,
   removeTaskApi,
   swapTasksApi,
+  setCompletedApi,
 } from "../api/ApiCalls";
 
 export type Task = {
@@ -51,10 +52,20 @@ export const useTaskService = () => {
     return data.message;
   };
 
+  const setCompleted = async (id1: number): Promise<string> => {
+    const res = await setCompletedApi(id1);
+    const data = await res.json();
+    console.log(data.message);
+    setRefresh((prev) => prev + 1);
+    return data.message;
+  };
+
+
   return {
     tasks,
     addTask,
     removeTask,
     swapTasks,
+    setCompleted
   };
 };
