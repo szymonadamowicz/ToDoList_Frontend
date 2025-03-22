@@ -1,10 +1,10 @@
 import React from 'react';
-import Data from './data';
+import MainPage from "./pages/MainPage"
 
 function App() {
   return (
     <div>
-      <Data/>
+      <MainPage/>
     </div>
   );
 }
