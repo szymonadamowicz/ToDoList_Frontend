@@ -75,6 +75,7 @@ const Navbar = () => {
       </div>
 
       <Modal
+      onAfterOpen={()=>setDueDate(moment())}
         isOpen={isModalOpen}
         onRequestClose={() => setIsModalOpen(false)}
         style={customStyles}
@@ -110,12 +111,12 @@ const Navbar = () => {
             <div className="flex flex-row items-center mt-6">
               <label className="block mb-1">Due date:</label>
 
-              <Datetime
+              <Datetime                
                 value={dueDate}
                 onChange={(val) => setDueDate(val)}
                 inputProps={{
                   className:
-                    "w-full p-2 border rounded bg-white dark:bg-gray-700 dark:text-white",
+                    "w-36 ml-4 p-2 border rounded bg-white dark:bg-gray-700 dark:text-white",
                 }}
                 dateFormat="YYYY-MM-DD"
                 timeFormat="HH:mm"

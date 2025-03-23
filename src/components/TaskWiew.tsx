@@ -1,25 +1,37 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { TaskContext } from "../pages/MainPage";
 import dayjs from "dayjs";
 
 const TaskView = () => {
   const { tasks, removeTask, isError, isLoading } = useContext(TaskContext)!;
 
-  const getTimeRemaining = (dueDate: Date) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_, setCurrentTime] = useState(new Date());
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 60000);
+  
+    return () => clearInterval(interval);
+  }, []);
+
+  const getTimeRemaining = (dueDate: Date | string) => {
     const now = dayjs();
     const due = dayjs(dueDate);
+  
     const diffInMs = due.diff(now);
-
+  
     if (diffInMs <= 0) return "Past due";
-
+  
     const totalMinutes = Math.floor(diffInMs / 60000);
     const days = Math.floor(totalMinutes / (60 * 24));
     const hours = Math.floor((totalMinutes % (60 * 24)) / 60);
     const minutes = totalMinutes % 60;
-
+  
     return `${days}d ${hours}h ${minutes}min`;
   };
-
+  
   return (
     <div className="flex flex-wrap justify-center gap-[35px] flex-1 m-5 mt-5 p-5">
       {isLoading && (
