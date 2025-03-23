@@ -11,7 +11,7 @@ const MainPage = () => {
   const taskService = useTaskService();
 
   return (
-    <div className="flex flex-col flex-1 h-full min-h-screen bg-red-500">
+    <div className="flex flex-col flex-1 min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors">
       <TaskContext.Provider value={taskService}>
         <Navbar />
         <TaskView />
