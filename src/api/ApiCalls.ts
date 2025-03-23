@@ -90,3 +90,27 @@ export const setCompletedApi = async (id1: number) => {
     console.error("setCompletedApi error:", error);
   }
 };
+
+export const editTaskApi = async (taskId:number, name:string, description:string, dueDate:string|Moment) => {
+  try {
+    const res = await fetch(`https://localhost:7140/tasks/editTask?taskId=${taskId}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: name,
+        description: description,
+        DueDate: dueDate,
+        isCompleted: false,
+      }),
+    });
+
+    if (!res.ok) {
+      console.log(`task edit failed: ${res.status}`);
+    }
+
+    return await res.json();
+  } catch (error) {
+    console.error("addTaskApi error:", error);
+  }
+};
+

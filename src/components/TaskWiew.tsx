@@ -1,6 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 import { TaskContext } from "../pages/MainPage";
 import dayjs from "dayjs";
+import CustomModal from "./Modal";
+import moment, { Moment } from "moment";
+import { Task } from "../types/Types";
 
 const TaskView = () => {
   const { tasks, removeTask, setCompleted, isError, isLoading } =
@@ -9,6 +12,19 @@ const TaskView = () => {
   // eslint-disable-next-line
   const [_, setCurrentTime] = useState(new Date());
   const [loadingId, setLoadingId] = useState<number | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [taskName, setTaskName] = useState("");
+  const [taskDescription, setTaskDescription] = useState("");
+  const [dueDate, setDueDate] = useState<Moment | string>(moment());
+  const [editedTaskId, setEditedTaskId] = useState<number>();
+
+  const handleOpenModal = (task: Task) => {
+    setTaskName(task.name);
+    setTaskDescription(task.description);
+    setDueDate(task.dueDate);
+    setEditedTaskId(task.id);
+    setIsModalOpen(true);
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -85,12 +101,30 @@ const TaskView = () => {
           ) : (
             <>
               <button
-                className="absolute top-2 right-12 flex items-center justify-center text-white bg-green-500 px-2 py-1 rounded hover:bg-green-600 w-[28px] h-[28px]"
+                className="absolute top-2 right-[72px] flex items-center justify-center text-white bg-yellow-400 px-2 py-1 rounded hover:bg-yellow-500 w-[28px] h-[28px]"
+                onClick={() => handleOpenModal(item)}
+              >
+                ✎
+              </button>
+              <CustomModal
+                title="Edit"
+                isAdd={false}
+                isModalOpen={isModalOpen}
+                setIsModalOpen={setIsModalOpen}
+                taskName={taskName}
+                setTaskName={setTaskName}
+                taskDescription={taskDescription}
+                setTaskDescription={setTaskDescription}
+                dueDate={dueDate}
+                setDueDate={setDueDate}
+                taskId={editedTaskId!}
+              />{" "}
+              <button
+                className="absolute top-2 right-10 flex items-center justify-center text-white bg-green-500 px-2 py-1 rounded hover:bg-green-600 w-[28px] h-[28px]"
                 onClick={() => handleSetCompleted(item.id)}
               >
                 ✓
               </button>
-
               <button
                 className="absolute top-2 right-2 flex items-center justify-center text-white bg-red-500 px-2 py-1 rounded hover:bg-red-600 w-[28px] h-[28px]"
                 onClick={() => removeTask(item.id)}
