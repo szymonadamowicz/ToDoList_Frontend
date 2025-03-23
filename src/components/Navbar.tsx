@@ -2,13 +2,23 @@ import { useContext, useState } from "react";
 import Modal from "react-modal";
 import { TaskContext } from "../pages/MainPage";
 import DarkModeToggle from "./DarkModeToggle";
+import Datetime from "react-datetime";
+import "react-datetime/css/react-datetime.css";
+import moment, { Moment } from "moment";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
 
 const Navbar = () => {
-  const { addTask } = useContext(TaskContext)!;
+  const { addTask, tasks } = useContext(TaskContext)!;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [taskName, setTaskName] = useState("");
   const [taskDescription, setTaskDescription] = useState("");
+  const [dueDate, setDueDate] = useState<Moment | string>(moment());
   const [borderError, setBorderError] = useState(false);
+
+  dayjs.extend(utc);
+  dayjs.extend(timezone);
 
   const customStyles = {
     content: {
@@ -23,12 +33,16 @@ const Navbar = () => {
     },
   };
 
-  const handleModalAdd = (name: string, description: string) => {
+  const handleModalAdd = (name: string, description: string, dueDate: string|Moment) => {
     if (name !== "" && description !== "") {
-      addTask(name, description);
+      const formattedDueDate = dayjs((dueDate as Moment).toDate())
+      .tz(Intl.DateTimeFormat().resolvedOptions().timeZone)
+      .format("YYYY-MM-DDTHH:mm:ss");
+      addTask(name, description, formattedDueDate);
       setIsModalOpen(false);
       setTaskName("");
       setTaskDescription("");
+      setDueDate(moment());
       setBorderError(false);
     } else {
       setBorderError(true);
@@ -50,6 +64,12 @@ const Navbar = () => {
         </button>
         <button className="bg-yellow-400 hover:bg-yellow-500 text-white font-semibold px-4 py-1 rounded shadow">
           edit task
+        </button>
+        <button
+          className="bg-yellow-400 hover:bg-yellow-500 text-white font-semibold px-4 py-1 rounded shadow"
+          onClick={() => console.log(tasks)}
+        >
+          ?
         </button>
         <DarkModeToggle />
       </div>
@@ -81,6 +101,28 @@ const Navbar = () => {
             />
           </div>
 
+          <div className="relative mb-4">
+            {borderError && (
+              <div className="absolute right-5 text-red-500 text-sm">
+                Error dueDate field null or invalid
+              </div>
+            )}
+            <div className="flex flex-row items-center mt-6">
+              <label className="block mb-1">Due date:</label>
+
+              <Datetime
+                value={dueDate}
+                onChange={(val) => setDueDate(val)}
+                inputProps={{
+                  className:
+                    "w-full p-2 border rounded bg-white dark:bg-gray-700 dark:text-white",
+                }}
+                dateFormat="YYYY-MM-DD"
+                timeFormat="HH:mm"
+              />
+            </div>
+          </div>
+
           <div className="relative mb-6">
             {borderError && (
               <div className="absolute right-5 text-red-500 text-sm">
@@ -100,7 +142,7 @@ const Navbar = () => {
           <div className="flex justify-end">
             <button
               className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-              onClick={() => handleModalAdd(taskName, taskDescription)}
+              onClick={() => handleModalAdd(taskName, taskDescription, dueDate)}
             >
               Add Task
             </button>

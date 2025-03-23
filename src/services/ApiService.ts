@@ -6,13 +6,9 @@ import {
   swapTasksApi,
   setCompletedApi,
 } from "../api/ApiCalls";
+import { Task } from "../types/Types";
+import { Moment } from "moment";
 
-export type Task = {
-  id: number;
-  name: string;
-  description: string;
-  isCompleted: boolean;
-};
 
 export const useTaskService = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -42,8 +38,8 @@ export const useTaskService = () => {
 
   const refreshTasks = () => setRefresh((prev) => prev + 1);
 
-  const addTask = async (name:string, description:string) => {
-    const data = await addTaskApi(name, description);
+  const addTask = async (name:string, description:string, dueDate:string|Moment) => {
+    const data = await addTaskApi(name, description, dueDate);
     if (!data) return setIsError(true);
     refreshTasks();
   };

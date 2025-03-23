@@ -1,3 +1,5 @@
+import { Moment } from "moment";
+
 export const fetchTasksApi = async () => {
   try {
     const res = await fetch("https://localhost:7140/tasks");
@@ -10,7 +12,7 @@ export const fetchTasksApi = async () => {
   }
 };
 
-export const addTaskApi = async (name:string, description:string) => {
+export const addTaskApi = async (name:string, description:string, dueDate:string|Moment) => {
   try {
     const res = await fetch("https://localhost:7140/tasks/add", {
       method: "POST",
@@ -18,6 +20,7 @@ export const addTaskApi = async (name:string, description:string) => {
       body: JSON.stringify({
         name: name,
         description: description,
+        DueDate: dueDate,
         isCompleted: false,
       }),
     });
