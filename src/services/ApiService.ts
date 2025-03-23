@@ -42,8 +42,8 @@ export const useTaskService = () => {
 
   const refreshTasks = () => setRefresh((prev) => prev + 1);
 
-  const addTask = async () => {
-    const data = await addTaskApi();
+  const addTask = async (name:string, description:string) => {
+    const data = await addTaskApi(name, description);
     if (!data) return setIsError(true);
     refreshTasks();
   };

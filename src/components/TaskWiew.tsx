@@ -1,12 +1,8 @@
-import { useState } from "react";
-import { useTaskService } from "../services/ApiService";
+import { useContext } from "react";
+import { TaskContext } from "../pages/MainPage";
 
 const TaskView = () => {
-  const { tasks, addTask, removeTask, swapTasks, setCompleted, isError, isLoading } =
-    useTaskService();
-  const [firstId, setFirstId] = useState("");
-  const [secondId, setSecondId] = useState("");
-
+  const { tasks, removeTask, isError, isLoading } = useContext(TaskContext)!;
 
   return (
     <div
@@ -36,10 +32,29 @@ const TaskView = () => {
             minWidth: "300px",
             maxWidth: "350px",
             alignSelf: "center",
+            position: "relative",
+            border: item.isCompleted
+              ? "3px solid greenyellow"
+              : "3px solid black",
           }}
         >
-          <button onClick={() => removeTask(item.id)}>remove</button>
-          {item.id}
+          <button
+            style={{ position: "absolute", top: 5, right: 5 }}
+            onClick={() => removeTask(item.id)}
+          >
+            remove
+          </button>
+          <div style={{ padding: 10, width: "100%" }}>
+            <h3 style={{ width: "70%", marginTop: "10px" }}>{item.name}</h3>
+            <div
+              style={{
+                width: "100%",
+                borderBottom: "1px solid black",
+                marginBottom: "10px",
+              }}
+            />
+            <div>{item.description}</div>
+          </div>
         </div>
       ))}
     </div>
@@ -47,14 +62,3 @@ const TaskView = () => {
 };
 
 export default TaskView;
-
-//   <input onChange={(e) => setFirstId(e.target.value)} value={firstId} />
-//       <p>{firstId}</p>
-//       <input onChange={(e) => setSecondId(e.target.value)} value={secondId} />
-//       <p>{secondId}</p>
-//       <button
-//         onClick={() => swapTasks(parseInt(firstId), parseInt(secondId))}
-//       >
-//         Swap
-//       </button>
-//       <button onClick={()=>console.log(tasks)}>console.log tasks data</button>

@@ -10,15 +10,15 @@ export const fetchTasksApi = async () => {
   }
 };
 
-export const addTaskApi = async () => {
+export const addTaskApi = async (name:string, description:string) => {
   try {
     const res = await fetch("https://localhost:7140/tasks/add", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        name: "new",
-        description: "desc",
-        isCompleted: true,
+        name: name,
+        description: description,
+        isCompleted: false,
       }),
     });
 
