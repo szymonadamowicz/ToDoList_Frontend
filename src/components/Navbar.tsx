@@ -8,6 +8,7 @@ const Navbar = () => {
   const [taskName, setTaskName] = useState("");
   const [taskDescription, setTaskDescription] = useState("");
   const [borderError, setBorderError] = useState(false);
+
   const customStyles = {
     content: {
       height: "80%",
@@ -26,7 +27,7 @@ const Navbar = () => {
       setIsModalOpen(false);
       setTaskName("");
       setTaskDescription("");
-      setBorderError(false)
+      setBorderError(false);
     } else {
       console.log("Error adding task");
       setBorderError(true);
@@ -34,97 +35,77 @@ const Navbar = () => {
   };
 
   return (
-    <div
-      style={{
-        height: "40px",
-        backgroundColor: "green",
-        width: "100%",
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-      }}
-    >
-      <h3 style={{ width: "30%", marginLeft: 20 }}>To Do List</h3>
-      <div
-        style={{
-          gap: 10,
-          display: "flex",
-          justifyContent: "flex-end",
-          width: "100%",
-        }}
-      >
+    <div className="h-[40px] bg-green-500 w-full flex flex-row items-center">
+      <h3 className="w-[30%] ml-5 text-white font-semibold">To Do List</h3>
+      <div className="flex gap-2 justify-end w-full mr-5">
         <Modal
           isOpen={isModalOpen}
           onRequestClose={() => setIsModalOpen(false)}
           style={customStyles}
         >
-          <h2>Add task</h2>
-          <div
-            style={{
-              width: "100%",
-              borderBottom: "1px solid black",
-              marginBottom: "10px",
-            }}
-          />
-          <h4 style={{ marginTop: "10px", marginBottom: "10px" }}>
-            Enter any data you would like to have displayed in your To Do List
-            as a single task
+          <h2 className="text-xl font-bold mb-2">Add task</h2>
+          <div className="w-full border-b border-black mb-2" />
+
+          <h4 className="my-2 text-sm">
+            Enter any data you would like to have displayed in your To Do List as a single task
           </h4>
-          <div>
+
+          <div className="relative">
             {borderError && (
-              <div
-                style={{ position: "absolute", right: "20px", color: "red" }}
-              >
+              <div className="absolute right-5 text-red-500 text-sm">
                 Error name field null or invalid
               </div>
             )}
-
-            <div style={{ marginBottom: "4px" }}>Name:</div>
+            <div className="mb-1">Name:</div>
             <input
-              style={{
-                width: "100%",
-                border: borderError ? "2px solid red" : "",
-              }}
+              className={`w-full p-2 border rounded ${
+                borderError ? "border-2 border-red-500" : "border-gray-300"
+              }`}
               onChange={(e) => setTaskName(e.target.value)}
               value={taskName}
             />
           </div>
-          <div>
+
+          <div className="relative mt-4">
             {borderError && (
-              <div
-                style={{ position: "absolute", right: "20px", color: "red" }}
-              >
+              <div className="absolute right-5 text-red-500 text-sm">
                 Error desciption field null or invalid
               </div>
             )}
-            <div
-              style={{
-                marginTop: "10px",
-                marginBottom: "4px",
-              }}
-            >
-              Description:
-            </div>
+            <div className="mb-1">Description:</div>
             <textarea
-              style={{
-                width: "100%",
-                minHeight: "100px",
-                border: borderError ? "2px solid red" : ""
-              }}
+              className={`w-full min-h-[100px] p-2 border rounded ${
+                borderError ? "border-2 border-red-500" : "border-gray-300"
+              }`}
               onChange={(e) => setTaskDescription(e.target.value)}
               value={taskDescription}
             />
           </div>
 
-          <div style={{ position: "absolute", bottom: "20px", right: "20px" }}>
-            <button onClick={() => handleModalAdd(taskName, taskDescription)}>
+          <div className="absolute bottom-5 right-5">
+            <button
+              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+              onClick={() => handleModalAdd(taskName, taskDescription)}
+            >
               Add task
             </button>
           </div>
         </Modal>
-        <button onClick={() => setIsModalOpen(true)}>+</button>
-        <button>completed tasks</button>
-        <button style={{ marginRight: 20 }}>edit task</button>
+
+        <button
+          className="bg-white text-black px-3 py-1 rounded shadow hover:bg-gray-100"
+          onClick={() => setIsModalOpen(true)}
+        >
+          +
+        </button>
+
+        <button className="bg-white text-black px-3 py-1 rounded shadow hover:bg-gray-100">
+          completed tasks
+        </button>
+
+        <button className="bg-white text-black px-3 py-1 rounded shadow hover:bg-gray-100 mr-5">
+          edit task
+        </button>
       </div>
     </div>
   );

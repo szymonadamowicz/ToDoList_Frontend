@@ -5,55 +5,28 @@ const TaskView = () => {
   const { tasks, removeTask, isError, isLoading } = useContext(TaskContext)!;
 
   return (
-    <div
-      style={{
-        background: "pink",
-        display: "flex",
-        flex: 1,
-        gap: 35,
-        flexWrap: "wrap",
-        justifyContent: "center",
-        height: "auto",
-        margin: "20px",
-        marginTop: "20px",
-        padding: "20px",
-      }}
-    >
+    <div className="bg-pink-300 flex flex-wrap justify-center gap-[35px] flex-1 m-5 mt-5 p-5">
       {isLoading && <div>fetching data...</div>}
       {isError && <div>error fetching data</div>}
+
       {tasks.map((item) => (
         <div
           key={item.id}
-          style={{
-            backgroundColor: "blue",
-            height: "250px",
-            display: "flex",
-            flex: 1,
-            minWidth: "300px",
-            maxWidth: "350px",
-            alignSelf: "center",
-            position: "relative",
-            border: item.isCompleted
-              ? "3px solid greenyellow"
-              : "3px solid black",
-          }}
+          className={`relative flex flex-1 min-w-[300px] max-w-[350px] h-[250px] bg-blue-500 ${
+            item.isCompleted ? "border-[3px] border-green-300" : "border-[3px] border-black"
+          }`}
         >
           <button
-            style={{ position: "absolute", top: 5, right: 5 }}
+            className="absolute top-1 right-1 bg-white px-2 py-1 rounded shadow"
             onClick={() => removeTask(item.id)}
           >
             remove
           </button>
-          <div style={{ padding: 10, width: "100%" }}>
-            <h3 style={{ width: "70%", marginTop: "10px" }}>{item.name}</h3>
-            <div
-              style={{
-                width: "100%",
-                borderBottom: "1px solid black",
-                marginBottom: "10px",
-              }}
-            />
-            <div>{item.description}</div>
+
+          <div className="p-2 w-full">
+            <h3 className="w-[70%] mt-2 text-white font-bold text-lg">{item.name}</h3>
+            <div className="w-full border-b border-black mb-2" />
+            <div className="text-white">{item.description}</div>
           </div>
         </div>
       ))}
