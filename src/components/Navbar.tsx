@@ -3,7 +3,6 @@ import Modal from "react-modal";
 import { TaskContext } from "../pages/MainPage";
 import DarkModeToggle from "./DarkModeToggle";
 
-
 const Navbar = () => {
   const { addTask } = useContext(TaskContext)!;
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -41,16 +40,16 @@ const Navbar = () => {
       <h3 className="text-xl font-bold text-white flex-grow">To Do List</h3>
       <div className="flex gap-3">
         <button
-        className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-1 rounded shadow"
+          className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-1 rounded shadow"
           onClick={() => setIsModalOpen(true)}
         >
           +
         </button>
         <button className="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-4 py-1 rounded shadow">
-        completed tasks
+          completed tasks
         </button>
         <button className="bg-yellow-400 hover:bg-yellow-500 text-white font-semibold px-4 py-1 rounded shadow">
-        edit task
+          edit task
         </button>
         <DarkModeToggle />
       </div>
@@ -60,7 +59,7 @@ const Navbar = () => {
         onRequestClose={() => setIsModalOpen(false)}
         style={customStyles}
       >
-        <div className="relative bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-xl text-gray-800 dark:text-white">
+        <div className="text-gray-800 dark:text-white">
           <h2 className="text-2xl font-semibold mb-4">Add Task</h2>
           <p className="text-sm mb-4">
             Enter any data you would like to have displayed in your To Do List.
