@@ -10,8 +10,6 @@ const DarkModeToggle = () => {
     } else {
       html.classList.remove("dark");
     }
-    console.log("Dark mode:", isDark);
-
   }, [isDark]);
 
   return (

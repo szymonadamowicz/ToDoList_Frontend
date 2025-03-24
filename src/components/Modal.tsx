@@ -49,7 +49,9 @@ const CustomModal: FC<CustomModalProps> = ({
     taskId?: number
   ) => {
     if (name !== "" && description !== "") {
-      const formattedDueDate = dayjs((dueDate as Moment).toDate())
+      const formattedDueDate = dayjs(
+        typeof dueDate === "string" ? new Date(dueDate) : dueDate.toDate()
+      )
         .tz(Intl.DateTimeFormat().resolvedOptions().timeZone)
         .format("YYYY-MM-DDTHH:mm:ss");
 
@@ -69,7 +71,7 @@ const CustomModal: FC<CustomModalProps> = ({
 
   return (
     <Modal
-      onAfterOpen={() => setDueDate(moment())}
+      onAfterOpen={() => isAdd && setDueDate(moment())}
       isOpen={isModalOpen}
       onRequestClose={() => setIsModalOpen(false)}
       style={customStyles}
@@ -106,7 +108,11 @@ const CustomModal: FC<CustomModalProps> = ({
             <label className="block mb-1">Due date:</label>
 
             <Datetime
-              value={dueDate}
+              value={
+                typeof dueDate === "string"
+                  ? moment(dueDate).format("YYYY-MM-DD HH:mm")
+                  : (dueDate as Moment).format("YYYY-MM-DD HH:mm")
+              }
               onChange={(val) => setDueDate(val)}
               inputProps={{
                 className:

@@ -1,12 +1,11 @@
 import { Moment } from "moment";
 
-export type Task = {
+export type TaskViewModel = {
   id: number;
   name: string;
   description: string;
   dueDate: string | Moment;
   isCompleted: boolean;
-  setEditedTaskId? : number
 };
 
 export type CustomModalProps = {
@@ -20,5 +19,5 @@ export type CustomModalProps = {
   setTaskDescription: (taskDescription: string) => void;
   dueDate: Moment | string;
   setDueDate: (dueDate: Moment | string) => void;
-  taskId? : number;
+  taskId?: number;
 };

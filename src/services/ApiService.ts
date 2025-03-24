@@ -7,12 +7,12 @@ import {
   setCompletedApi,
   editTaskApi,
 } from "../api/ApiCalls";
-import { Task } from "../types/Types";
+import { TaskViewModel } from "../types/Types";
 import { Moment } from "moment";
-
+import { toTaskViewModel } from "./ViewModelMapper";
 
 export const useTaskService = () => {
-  const [tasks, setTasks] = useState<Task[]>([]);
+  const [tasks, setTasks] = useState<TaskViewModel[]>([]);
   const [refresh, setRefresh] = useState(0);
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -25,13 +25,13 @@ export const useTaskService = () => {
 
       if (!data) {
         setIsError(true);
-        setIsLoading(false)
+        setIsLoading(false);
         return;
       }
 
-      setTasks(data);
+      setTasks(data.map(toTaskViewModel));
       setIsError(false);
-      setIsLoading(false)
+      setIsLoading(false);
     };
 
     fetchData();
@@ -39,7 +39,11 @@ export const useTaskService = () => {
 
   const refreshTasks = () => setRefresh((prev) => prev + 1);
 
-  const addTask = async (name:string, description:string, dueDate:string|Moment) => {
+  const addTask = async (
+    name: string,
+    description: string,
+    dueDate: string | Moment
+  ) => {
     const data = await addTaskApi(name, description, dueDate);
     if (!data) return setIsError(true);
     refreshTasks();
@@ -63,8 +67,12 @@ export const useTaskService = () => {
     refreshTasks();
   };
 
-  const editTask = async (id: number, name:string, description:string, dueDate:string|Moment) => {
-    console.log(id)
+  const editTask = async (
+    id: number,
+    name: string,
+    description: string,
+    dueDate: string | Moment
+  ) => {
     const data = await editTaskApi(id, name, description, dueDate);
     if (!data) return setIsError(true);
     refreshTasks();

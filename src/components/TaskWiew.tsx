@@ -3,7 +3,7 @@ import { TaskContext } from "../pages/MainPage";
 import dayjs from "dayjs";
 import CustomModal from "./Modal";
 import moment, { Moment } from "moment";
-import { Task } from "../types/Types";
+import { TaskViewModel } from "../types/Types";
 
 const TaskView = () => {
   const { tasks, removeTask, setCompleted, isError, isLoading } =
@@ -18,7 +18,7 @@ const TaskView = () => {
   const [dueDate, setDueDate] = useState<Moment | string>(moment());
   const [editedTaskId, setEditedTaskId] = useState<number>();
 
-  const handleOpenModal = (task: Task) => {
+  const handleOpenModal = (task: TaskViewModel) => {
     setTaskName(task.name);
     setTaskDescription(task.description);
     setDueDate(task.dueDate);
@@ -81,9 +81,9 @@ const TaskView = () => {
       )}
       {isError && <div className="text-red-500">error fetching data</div>}
 
-      {tasks.map((item) => (
+      {tasks.map((item, index) => (
         <div
-          key={item.id}
+          key={index}
           className={`relative flex flex-col transition-all duration-300 
       w-[320px] min-w-[300px] max-w-[350px] h-[250px] rounded-2xl p-4 pt-2 shadow-md 
       bg-white dark:bg-gray-800 
