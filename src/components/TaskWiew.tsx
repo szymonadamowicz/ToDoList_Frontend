@@ -1,14 +1,13 @@
 import { useContext, useEffect, useState } from "react";
-import { TaskContext } from "../pages/MainPage";
 import dayjs from "dayjs";
 import CustomModal from "./Modal";
 import moment, { Moment } from "moment";
-import { TaskViewModel } from "../types/Types";
+import { TaskViewModel, TaskViewProps } from "../types/Types";
+import { TaskContext } from "../App";
 
-const TaskView = () => {
+const TaskView: React.FC<TaskViewProps> = ({ isCompletedPage }) => {
   const { tasks, removeTask, setCompleted, isError, isLoading } =
     useContext(TaskContext)!;
-
   // eslint-disable-next-line
   const [_, setCurrentTime] = useState(new Date());
   const [loadingId, setLoadingId] = useState<number | null>(null);
@@ -17,6 +16,8 @@ const TaskView = () => {
   const [taskDescription, setTaskDescription] = useState("");
   const [dueDate, setDueDate] = useState<Moment | string>(moment());
   const [editedTaskId, setEditedTaskId] = useState<number>();
+  const [fadingOutIds, setFadingOutIds] = useState<number[]>([]);
+  const [hiddenIds, setHiddenIds] = useState<number[]>([]);
 
   const handleOpenModal = (task: TaskViewModel) => {
     setTaskName(task.name);
@@ -57,20 +58,26 @@ const TaskView = () => {
   };
 
   useEffect(() => {
+    if (isCompletedPage) return;
     const timers: NodeJS.Timeout[] = [];
 
     tasks.forEach((task) => {
-      if (task.isCompleted) {
-        const timeout = setTimeout(() => {
-          removeTask(task.id);
+      if (task.isCompleted && !fadingOutIds.includes(task.id)) {
+        const fadeTimer = setTimeout(() => {
+          setFadingOutIds((prev) => [...prev, task.id]);
+
+          const hideTimer = setTimeout(() => {
+            setHiddenIds((prev) => [...prev, task.id]);
+          }, 1500);
+
+          timers.push(hideTimer);
         }, 60000);
-        timers.push(timeout);
+
+        timers.push(fadeTimer);
       }
     });
 
-    return () => {
-      timers.forEach(clearTimeout);
-    };
+    return () => timers.forEach(clearTimeout);
     // eslint-disable-next-line
   }, [tasks]);
 
@@ -81,76 +88,83 @@ const TaskView = () => {
       )}
       {isError && <div className="text-red-500">error fetching data</div>}
 
-      {tasks.map((item, index) => (
-        <div
-          key={index}
-          className={`relative flex flex-col transition-all duration-300 
-      w-[320px] min-w-[300px] max-w-[350px] h-[250px] rounded-2xl p-4 pt-2 shadow-md 
-      bg-white dark:bg-gray-800 
-      text-black dark:text-white 
-      ${
-        item.isCompleted
-          ? "border-[3px] border-green-300"
-          : "border-[3px] border-gray-300 dark:border-gray-600"
-      }`}
-        >
-          {loadingId === item.id ? (
-            <div className="flex-1 flex flex-col justify-center items-center text-gray-500">
-              <span className="text-lg font-semibold">Loading...</span>
-            </div>
-          ) : (
-            <>
-              <button
-                className="absolute top-2 right-[72px] flex items-center justify-center text-white bg-yellow-400 px-2 py-1 rounded hover:bg-yellow-500 w-[28px] h-[28px]"
-                onClick={() => handleOpenModal(item)}
-              >
-                ✎
-              </button>
-              <CustomModal
-                title="Edit"
-                isAdd={false}
-                isModalOpen={isModalOpen}
-                setIsModalOpen={setIsModalOpen}
-                taskName={taskName}
-                setTaskName={setTaskName}
-                taskDescription={taskDescription}
-                setTaskDescription={setTaskDescription}
-                dueDate={dueDate}
-                setDueDate={setDueDate}
-                taskId={editedTaskId!}
-              />{" "}
-              <button
-                className="absolute top-2 right-10 flex items-center justify-center text-white bg-green-500 px-2 py-1 rounded hover:bg-green-600 w-[28px] h-[28px]"
-                onClick={() => handleSetCompleted(item.id)}
-              >
-                ✓
-              </button>
-              <button
-                className="absolute top-2 right-2 flex items-center justify-center text-white bg-red-500 px-2 py-1 rounded hover:bg-red-600 w-[28px] h-[28px]"
-                onClick={() => removeTask(item.id)}
-              >
-                ✕
-              </button>
-              <h3 className="text-xl font-semibold mb-2 w-[85%] overflow-hidden">
-                {item.name}
-              </h3>
-              <div className="border-b border-gray-300 dark:border-gray-600 mb-2" />
-              <p className="h-[65%]">{item.description}</p>
-              <div className="border-b border-gray-300 dark:border-gray-600 mb-2" />
-              <div className="h-[15%] content-center">
-                <h3>
-                  Time Left:{" "}
-                  {getTimeRemaining(
-                    typeof item.dueDate === "string"
-                      ? new Date(item.dueDate)
-                      : item.dueDate.toDate()
-                  )}
-                </h3>
+      {tasks
+        .filter((item) =>
+          isCompletedPage
+            ? item.isCompleted
+            : !hiddenIds.includes(item.id)
+        )
+        .map((item) => (
+          <div
+            key={item.id}
+            className={`relative flex flex-col transition-opacity duration-[1500ms] ease-in-out
+            w-[320px] min-w-[300px] max-w-[350px] h-[250px] rounded-2xl p-4 pt-2 shadow-md
+            bg-white dark:bg-gray-800 text-black dark:text-white
+            ${
+              item.isCompleted
+                ? "border-[3px] border-green-300"
+                : "border-[3px] border-gray-300 dark:border-gray-600"
+            }
+            ${fadingOutIds.includes(item.id) ? "opacity-0" : "opacity-100"}
+          `}
+          >
+            {loadingId === item.id ? (
+              <div className="flex-1 flex flex-col justify-center items-center text-gray-500">
+                <span className="text-lg font-semibold">Loading...</span>
               </div>
-            </>
-          )}
-        </div>
-      ))}
+            ) : (
+              <>
+                <button
+                  className="absolute top-2 right-[72px] flex items-center justify-center text-white bg-yellow-400 px-2 py-1 rounded hover:bg-yellow-500 w-[28px] h-[28px]"
+                  onClick={() => handleOpenModal(item)}
+                >
+                  ✎
+                </button>
+                <CustomModal
+                  title="Edit"
+                  isAdd={false}
+                  isModalOpen={isModalOpen}
+                  setIsModalOpen={setIsModalOpen}
+                  taskName={taskName}
+                  setTaskName={setTaskName}
+                  taskDescription={taskDescription}
+                  setTaskDescription={setTaskDescription}
+                  dueDate={dueDate}
+                  setDueDate={setDueDate}
+                  taskId={editedTaskId!}
+                />
+                <button
+                  className="absolute top-2 right-10 flex items-center justify-center text-white bg-green-500 px-2 py-1 rounded hover:bg-green-600 w-[28px] h-[28px]"
+                  onClick={() => handleSetCompleted(item.id)}
+                >
+                  ✓
+                </button>
+                <button
+                  className="absolute top-2 right-2 flex items-center justify-center text-white bg-red-500 px-2 py-1 rounded hover:bg-red-600 w-[28px] h-[28px]"
+                  onClick={() => removeTask(item.id)}
+                >
+                  ✕
+                </button>
+                <h3 className="text-xl font-semibold mb-2 w-[85%] overflow-hidden">
+                  {item.name}
+                </h3>
+                <div className="border-b border-gray-300 dark:border-gray-600 mb-2" />
+                <p className="h-[65%]">{item.description}</p>
+                <div className="border-b border-gray-300 dark:border-gray-600 mb-2" />
+                <div className="h-[15%] content-center">
+                  <h3>
+                    Time Left:{" "}
+                    {getTimeRemaining(
+                      typeof item.dueDate === "string"
+                        ? new Date(item.dueDate)
+                        : item.dueDate.toDate()
+                    )}
+                  </h3>
+                </div>
+              </>
+            )}
+          </div>
+        ))}
     </div>
   );
 };

@@ -21,3 +21,7 @@ export type CustomModalProps = {
   setDueDate: (dueDate: Moment | string) => void;
   taskId?: number;
 };
+
+export type TaskViewProps = {
+  isCompletedPage: boolean;
+}

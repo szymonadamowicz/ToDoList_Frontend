@@ -1,16 +1,20 @@
 import { useContext, useState } from "react";
-import { TaskContext } from "../pages/MainPage";
+import { TaskContext } from "../App";
 import DarkModeToggle from "./DarkModeToggle";
 
 import moment, { Moment } from "moment";
 import CustomModal from "./Modal";
+import { useNavigate } from "react-router-dom";
+import { TaskViewProps } from "../types/Types";
 
-const Navbar = () => {
+const Navbar: React.FC<TaskViewProps> = ({ isCompletedPage }) => {
   const { tasks } = useContext(TaskContext)!;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [taskName, setTaskName] = useState("");
   const [taskDescription, setTaskDescription] = useState("");
   const [dueDate, setDueDate] = useState<Moment | string>(moment());
+
+  const navigate = useNavigate();
 
   return (
     <div className="h-[60px] bg-purple-400 dark:bg-purple-700  w-full flex items-center px-6 shadow-md">
@@ -22,8 +26,11 @@ const Navbar = () => {
         >
           +
         </button>
-        <button className="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-4 py-1 rounded shadow">
-          completed tasks
+        <button
+          className="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-4 py-1 rounded shadow"
+          onClick={() => navigate(isCompletedPage ? "/" : "completed-tasks")}
+        >
+          {isCompletedPage ? "to do tasks" : "completed tasks"}
         </button>
         <button
           className="bg-yellow-400 hover:bg-yellow-500 text-white font-semibold px-4 py-1 rounded shadow"

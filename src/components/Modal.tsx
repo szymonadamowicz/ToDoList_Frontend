@@ -6,8 +6,8 @@ import "react-datetime/css/react-datetime.css";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
-import { TaskContext } from "../pages/MainPage";
 import { CustomModalProps } from "../types/Types";
+import { TaskContext } from "../App";
 
 const CustomModal: FC<CustomModalProps> = ({
   title,
@@ -25,19 +25,6 @@ const CustomModal: FC<CustomModalProps> = ({
   const [borderError, setBorderError] = useState(false);
 
   const { addTask, editTask } = useContext(TaskContext)!;
-
-  const customStyles = {
-    content: {
-      height: "80%",
-      width: "40%",
-      alignSelf: "center",
-      justifySelf: "center",
-      borderRadius: "16px",
-    },
-    overlay: {
-      backgroundColor: "rgba(107, 103, 103, 0.6)",
-    },
-  };
 
   dayjs.extend(utc);
   dayjs.extend(timezone);
@@ -74,9 +61,10 @@ const CustomModal: FC<CustomModalProps> = ({
       onAfterOpen={() => isAdd && setDueDate(moment())}
       isOpen={isModalOpen}
       onRequestClose={() => setIsModalOpen(false)}
-      style={customStyles}
+      className="outline-none h-[80%] w-[90%] md:w-[40%] bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-xl mx-auto mt-12 text-gray-800 dark:text-white"
+      overlayClassName="bg-black/50 fixed inset-0 z-40"
     >
-      <div className="text-gray-800 dark:text-white">
+      <div className="h-full overflow-y-auto">
         <h2 className="text-2xl font-semibold mb-4">{title} Task</h2>
         <p className="text-sm mb-4">
           Enter any data you would like to have displayed in your To Do List.
@@ -106,7 +94,6 @@ const CustomModal: FC<CustomModalProps> = ({
           )}
           <div className="flex flex-row items-center mt-6">
             <label className="block mb-1">Due date:</label>
-
             <Datetime
               value={
                 typeof dueDate === "string"
@@ -124,6 +111,7 @@ const CustomModal: FC<CustomModalProps> = ({
           </div>
         </div>
 
+        {/* Description Field */}
         <div className="relative mb-6">
           {borderError && (
             <div className="absolute right-5 text-red-500 text-sm">
@@ -139,27 +127,18 @@ const CustomModal: FC<CustomModalProps> = ({
             value={taskDescription}
           />
         </div>
-        {isAdd ? (
-          <div className="flex justify-end">
-            <button
-              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-              onClick={() => handleModal(taskName, taskDescription, dueDate)}
-            >
-              Add Task
-            </button>
-          </div>
-        ) : (
-          <div className="flex justify-end">
-            <button
-              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-              onClick={() =>
-                handleModal(taskName, taskDescription, dueDate, taskId)
-              }
-            >
-              Edit Task
-            </button>
-          </div>
-        )}
+
+        {/* Submit Button */}
+        <div className="flex justify-end">
+          <button
+            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+            onClick={() =>
+              handleModal(taskName, taskDescription, dueDate, taskId)
+            }
+          >
+            {isAdd ? "Add Task" : "Edit Task"}
+          </button>
+        </div>
       </div>
     </Modal>
   );
