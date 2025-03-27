@@ -6,4 +6,5 @@ export const toTaskViewModel = (task: TaskViewModel): TaskViewModel => ({
   description: task.description,
   dueDate: task.dueDate,
   isCompleted: task.isCompleted,
+  isHidden: task.isHidden
 });

@@ -6,8 +6,9 @@ import { TaskViewModel, TaskViewProps } from "../types/Types";
 import { TaskContext } from "../App";
 
 const TaskView: React.FC<TaskViewProps> = ({ isCompletedPage }) => {
-  const { tasks, removeTask, setCompleted, isError, isLoading } =
+  const { tasks, removeTask, setCompleted, setHidden, isError, isLoading } =
     useContext(TaskContext)!;
+
   // eslint-disable-next-line
   const [_, setCurrentTime] = useState(new Date());
   const [loadingId, setLoadingId] = useState<number | null>(null);
@@ -17,7 +18,6 @@ const TaskView: React.FC<TaskViewProps> = ({ isCompletedPage }) => {
   const [dueDate, setDueDate] = useState<Moment | string>(moment());
   const [editedTaskId, setEditedTaskId] = useState<number>();
   const [fadingOutIds, setFadingOutIds] = useState<number[]>([]);
-  const [hiddenIds, setHiddenIds] = useState<number[]>([]);
 
   const handleOpenModal = (task: TaskViewModel) => {
     setTaskName(task.name);
@@ -39,12 +39,17 @@ const TaskView: React.FC<TaskViewProps> = ({ isCompletedPage }) => {
     setLoadingId(id);
     await setCompleted(id);
     setLoadingId(null);
+
+    setFadingOutIds((prev) => [...prev, id]);
+
+    setTimeout(() => {
+      setHidden(id);
+    }, 1500);
   };
 
   const getTimeRemaining = (dueDate: Date | string) => {
     const now = dayjs();
     const due = dayjs(dueDate);
-
     const diffInMs = due.diff(now);
 
     if (diffInMs <= 0) return "Past due";
@@ -57,30 +62,6 @@ const TaskView: React.FC<TaskViewProps> = ({ isCompletedPage }) => {
     return `${days}d ${hours}h ${minutes}min`;
   };
 
-  useEffect(() => {
-    if (isCompletedPage) return;
-    const timers: NodeJS.Timeout[] = [];
-
-    tasks.forEach((task) => {
-      if (task.isCompleted && !fadingOutIds.includes(task.id)) {
-        const fadeTimer = setTimeout(() => {
-          setFadingOutIds((prev) => [...prev, task.id]);
-
-          const hideTimer = setTimeout(() => {
-            setHiddenIds((prev) => [...prev, task.id]);
-          }, 1500);
-
-          timers.push(hideTimer);
-        }, 60000);
-
-        timers.push(fadeTimer);
-      }
-    });
-
-    return () => timers.forEach(clearTimeout);
-    // eslint-disable-next-line
-  }, [tasks]);
-
   return (
     <div className="flex flex-wrap justify-center gap-[35px] flex-1 m-5 mt-5 p-5">
       {isLoading && tasks.length === 0 && (
@@ -90,23 +71,22 @@ const TaskView: React.FC<TaskViewProps> = ({ isCompletedPage }) => {
 
       {tasks
         .filter((item) =>
-          isCompletedPage
-            ? item.isCompleted
-            : !hiddenIds.includes(item.id)
+          isCompletedPage ? item.isHidden : !item.isHidden
         )
         .map((item) => (
           <div
             key={item.id}
             className={`relative flex flex-col transition-opacity duration-[1500ms] ease-in-out
-            w-[320px] min-w-[300px] max-w-[350px] h-[250px] rounded-2xl p-4 pt-2 shadow-md
-            bg-white dark:bg-gray-800 text-black dark:text-white
-            ${
-              item.isCompleted
-                ? "border-[3px] border-green-300"
-                : "border-[3px] border-gray-300 dark:border-gray-600"
-            }
-            ${fadingOutIds.includes(item.id) ? "opacity-0" : "opacity-100"}
-          `}
+              w-[320px] min-w-[300px] max-w-[350px] h-[250px] rounded-2xl p-4 pt-2 shadow-md
+              bg-white dark:bg-gray-800 text-black dark:text-white
+              ${
+                item.isCompleted
+                  ? "border-[3px] border-green-300"
+                  : "border-[3px] border-gray-300 dark:border-gray-600"
+              }
+              ${fadingOutIds.includes(item.id) ? "opacity-0" : "opacity-100" }
+              ${fadingOutIds.includes(item.id) ? "pointer-events-none" : "pointer-events-auto" }
+            `}
           >
             {loadingId === item.id ? (
               <div className="flex-1 flex flex-col justify-center items-center text-gray-500">

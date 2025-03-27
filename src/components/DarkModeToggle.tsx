@@ -1,23 +1,24 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
+import { ThemeContext } from "../App";
 
 const DarkModeToggle = () => {
-  const [isDark, setIsDark] = useState(false);
+  const { theme, changeTheme } = useContext(ThemeContext)!;
 
   useEffect(() => {
     const html = document.documentElement;
-    if (isDark) {
+    if (theme?.isDarkMode) {
       html.classList.add("dark");
     } else {
       html.classList.remove("dark");
     }
-  }, [isDark]);
+  }, [theme]);
 
   return (
     <button
       className="w-28 block text-center px-3 py-1 rounded bg-gray-100 dark:bg-gray-700 dark:text-white"
-      onClick={() => setIsDark(!isDark)}
+      onClick={() => changeTheme()}
     >
-      {isDark ? "🌙 Dark" : "☀️ Light"}
+      {theme?.isDarkMode ? "🌙 Dark" : "☀️ Light"}
     </button>
   );
 };

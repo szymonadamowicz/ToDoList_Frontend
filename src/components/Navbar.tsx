@@ -20,12 +20,14 @@ const Navbar: React.FC<TaskViewProps> = ({ isCompletedPage }) => {
     <div className="h-[60px] bg-purple-400 dark:bg-purple-700  w-full flex items-center px-6 shadow-md">
       <h3 className="text-xl font-bold text-white flex-grow">To Do List</h3>
       <div className="flex gap-3">
-        <button
-          className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-1 rounded shadow"
-          onClick={() => setIsModalOpen(true)}
-        >
-          +
-        </button>
+        {!isCompletedPage && (
+          <button
+            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-1 rounded shadow"
+            onClick={() => setIsModalOpen(true)}
+          >
+            +
+          </button>
+        )}
         <button
           className="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-4 py-1 rounded shadow"
           onClick={() => navigate(isCompletedPage ? "/" : "completed-tasks")}

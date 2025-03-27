@@ -6,7 +6,12 @@ export type TaskViewModel = {
   description: string;
   dueDate: string | Moment;
   isCompleted: boolean;
+  isHidden: boolean;
 };
+
+export type ThemeModel = {
+  isDarkMode: boolean;
+}
 
 export type CustomModalProps = {
   title: string;

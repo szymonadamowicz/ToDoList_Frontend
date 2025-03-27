@@ -6,10 +6,11 @@ import {
   swapTasksApi,
   setCompletedApi,
   editTaskApi,
-} from "../api/ApiCalls";
+  setHiddenApi,
+} from "../api/ApiCallsTasks";
 import { TaskViewModel } from "../types/Types";
 import { Moment } from "moment";
-import { toTaskViewModel } from "./ViewModelMapper";
+import { toTaskViewModel } from "./TaskViewModelMapper";
 
 export const useTaskService = () => {
   const [tasks, setTasks] = useState<TaskViewModel[]>([]);
@@ -78,6 +79,12 @@ export const useTaskService = () => {
     refreshTasks();
   };
 
+  const setHidden = async (id: number) => {
+    const data = await setHiddenApi(id);
+    if (!data) return setIsError(true);
+    refreshTasks();
+  };
+
   return {
     tasks,
     addTask,
@@ -85,6 +92,7 @@ export const useTaskService = () => {
     swapTasks,
     setCompleted,
     editTask,
+    setHidden,
     isError,
     isLoading,
   };

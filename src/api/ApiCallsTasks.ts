@@ -114,3 +114,20 @@ export const editTaskApi = async (taskId:number, name:string, description:string
   }
 };
 
+export const setHiddenApi = async (taskId:number) => {
+  try {
+    const res = await fetch(`https://localhost:7140/tasks/setHidden?taskId=${taskId}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      })
+
+    if (!res.ok) {
+      console.log(`task set hidden failed: ${res.status}`);
+    }
+
+    return await res.json();
+  } catch (error) {
+    console.error("addTaskApi error:", error);
+  }
+}
+
