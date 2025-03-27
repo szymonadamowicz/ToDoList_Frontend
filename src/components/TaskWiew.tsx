@@ -4,10 +4,13 @@ import CustomModal from "./Modal";
 import moment, { Moment } from "moment";
 import { TaskViewModel, TaskViewProps } from "../types/Types";
 import { TaskContext } from "../App";
+import LanguageToggle from "./LanguageToggle";
+import { useTranslation } from "react-i18next";
 
 const TaskView: React.FC<TaskViewProps> = ({ isCompletedPage }) => {
   const { tasks, removeTask, setCompleted, setHidden, isError, isLoading } =
     useContext(TaskContext)!;
+  const { t }: any = useTranslation();
 
   // eslint-disable-next-line
   const [_, setCurrentTime] = useState(new Date());
@@ -68,11 +71,10 @@ const TaskView: React.FC<TaskViewProps> = ({ isCompletedPage }) => {
         <div className="text-gray-800 dark:text-white">fetching data...</div>
       )}
       {isError && <div className="text-red-500">error fetching data</div>}
+      <LanguageToggle />
 
       {tasks
-        .filter((item) =>
-          isCompletedPage ? item.isHidden : !item.isHidden
-        )
+        .filter((item) => (isCompletedPage ? item.isHidden : !item.isHidden))
         .map((item) => (
           <div
             key={item.id}
@@ -84,8 +86,12 @@ const TaskView: React.FC<TaskViewProps> = ({ isCompletedPage }) => {
                   ? "border-[3px] border-green-300"
                   : "border-[3px] border-gray-300 dark:border-gray-600"
               }
-              ${fadingOutIds.includes(item.id) ? "opacity-0" : "opacity-100" }
-              ${fadingOutIds.includes(item.id) ? "pointer-events-none" : "pointer-events-auto" }
+              ${fadingOutIds.includes(item.id) ? "opacity-0" : "opacity-100"}
+              ${
+                fadingOutIds.includes(item.id)
+                  ? "pointer-events-none"
+                  : "pointer-events-auto"
+              }
             `}
           >
             {loadingId === item.id ? (
@@ -133,12 +139,13 @@ const TaskView: React.FC<TaskViewProps> = ({ isCompletedPage }) => {
                 <div className="border-b border-gray-300 dark:border-gray-600 mb-2" />
                 <div className="h-[15%] content-center">
                   <h3>
-                    Time Left:{" "}
-                    {getTimeRemaining(
-                      typeof item.dueDate === "string"
-                        ? new Date(item.dueDate)
-                        : item.dueDate.toDate()
-                    )}
+                    {t("timeLeft", {
+                      time: getTimeRemaining(
+                        typeof item.dueDate === "string"
+                          ? new Date(item.dueDate)
+                          : item.dueDate.toDate()
+                      ),
+                    })}
                   </h3>
                 </div>
               </>

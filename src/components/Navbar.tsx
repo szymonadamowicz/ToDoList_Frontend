@@ -6,6 +6,7 @@ import moment, { Moment } from "moment";
 import CustomModal from "./Modal";
 import { useNavigate } from "react-router-dom";
 import { TaskViewProps } from "../types/Types";
+import LanguageToggle from "./LanguageToggle";
 
 const Navbar: React.FC<TaskViewProps> = ({ isCompletedPage }) => {
   const { tasks } = useContext(TaskContext)!;
@@ -40,7 +41,7 @@ const Navbar: React.FC<TaskViewProps> = ({ isCompletedPage }) => {
         >
           ?
         </button>
-        <DarkModeToggle />
+        {/* <DarkModeToggle /> */}
       </div>
       <CustomModal
         title="Add"
