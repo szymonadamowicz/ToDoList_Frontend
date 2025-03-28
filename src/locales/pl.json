@@ -21,5 +21,9 @@
   "Edit": "Edytuj",
   "Past due": "Po czasie",
   "fetching data...": "Pobieranie danych ...",
-  "error fetching data": "Błąd pobieranie danych"
+  "error fetching data": "Błąd pobieranie danych",
+  "Error name field null or invalid": "Błąd: pole nazwy jest zerowe lub nieprawidłowe",
+  "Error dueDate field null or invalid": "Błąd: pole terminu jest zerowe lub nieprawidłowe",
+  "Error description field null or invalid": "Błąd: Opis Pole jest zerowe lub nieprawidłowe",
+  "No tasks available": "Brak dostępnych zadań"
 }

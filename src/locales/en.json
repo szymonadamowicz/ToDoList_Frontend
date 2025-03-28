@@ -24,5 +24,6 @@
   "Edit": "Edit",
   "Past due": "Past due",
   "fetching data...": "fetching data...",
-  "error fetching data": "error fetching data"
+  "error fetching data": "error fetching data",
+  "No tasks available": "No tasks available"
 }

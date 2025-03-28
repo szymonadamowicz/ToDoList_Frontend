@@ -67,12 +67,28 @@ const TaskView: React.FC<TaskViewProps> = ({ isCompletedPage }) => {
   return (
     <div className="flex flex-wrap justify-center gap-[35px] flex-1 m-5 mt-5 p-5">
       {isLoading && tasks.length === 0 && (
-        <div className="text-gray-800 dark:text-white">{t("fetching data...")}</div>
+        <div className="text-gray-800 dark:text-white">
+          {t("fetching data...")}
+        </div>
       )}
-      {isError && <div className="text-red-500">{t("error fetching data")}</div>}
-      {tasks
-        .filter((item) => (isCompletedPage ? item.isHidden : !item.isHidden))
-        .map((item) => (
+      {isError && (
+        <div className="text-red-500">{t("error fetching data")}</div>
+      )}
+
+      {(() => {
+        const filteredTasks = tasks.filter((item) =>
+          isCompletedPage ? item.isHidden : !item.isHidden
+        );
+
+        if (filteredTasks.length === 0) {
+          return (
+            <div className="text-gray-500 dark:text-gray-300 italic">
+              {t("No tasks available")}
+            </div>
+          );
+        }
+
+        return filteredTasks.map((item) => (
           <div
             key={item.id}
             className={`relative flex flex-col transition-opacity duration-[1500ms] ease-in-out
@@ -83,7 +99,9 @@ const TaskView: React.FC<TaskViewProps> = ({ isCompletedPage }) => {
                   ? "border-[3px] border-green-300"
                   : "border-[3px] border-gray-300 dark:border-gray-600"
               }
-              ${fadingOutIds.includes(item.id) ? "opacity-0" : "opacity-100"}
+              ${
+                fadingOutIds.includes(item.id) ? "opacity-0" : "opacity-100"
+              }
               ${
                 fadingOutIds.includes(item.id)
                   ? "pointer-events-none"
@@ -93,7 +111,9 @@ const TaskView: React.FC<TaskViewProps> = ({ isCompletedPage }) => {
           >
             {loadingId === item.id ? (
               <div className="flex-1 flex flex-col justify-center items-center text-gray-500">
-                <span className="text-lg font-semibold">{t("Loading...")}</span>
+                <span className="text-lg font-semibold">
+                  {t("Loading...")}
+                </span>
               </div>
             ) : (
               <>
@@ -148,7 +168,8 @@ const TaskView: React.FC<TaskViewProps> = ({ isCompletedPage }) => {
               </>
             )}
           </div>
-        ))}
+        ));
+      })()}
     </div>
   );
 };
