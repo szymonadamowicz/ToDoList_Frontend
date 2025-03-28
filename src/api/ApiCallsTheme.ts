@@ -25,3 +25,19 @@ export const changeThemeApi = async () => {
     console.error("changeThemeApi error:", error);
   }
 };
+
+export const changeLanguageApi = async () => {
+  try {
+    const res = await fetch(`https://localhost:7140/theme/changeLanguage`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+    });
+    if (!res.ok) {
+      console.log(`chaning Language failed: ${res.status}`);
+    }
+
+    return await res.json();
+  } catch (error) {
+    console.error("changeLanguageApi error:", error);
+  }
+};

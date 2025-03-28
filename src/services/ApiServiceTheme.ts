@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { ThemeModel } from "../types/Types";
-import { changeThemeApi, fetchThemeApi } from "../api/ApiCallsTheme";
+import { changeLanguageApi, changeThemeApi, fetchThemeApi } from "../api/ApiCallsTheme";
 
 export const useThemeService = () => {
   const [theme, setTheme] = useState<ThemeModel>();
@@ -26,8 +26,14 @@ export const useThemeService = () => {
     setRefresh(refresh+1)
   };
 
+  const changeLanguage = async () => {
+    await changeLanguageApi();
+    setRefresh(refresh+1)
+  };
+
   return {
     theme,
     changeTheme,
+    changeLanguage
   };
 };
