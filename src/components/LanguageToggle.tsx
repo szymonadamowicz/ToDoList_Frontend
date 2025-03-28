@@ -1,20 +1,25 @@
-import { useTranslation } from 'react-i18next';
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 function LanguageToggle() {
-  const { t, i18n }: any = useTranslation();
-
+  const { i18n }: any = useTranslation();
+  const [isEn, changeIsEn] = useState(true);
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
   };
 
-  return (
-    <div>
-      <h1>{t('welcome')}</h1>
-      <p>{t('description')}</p>
+  const handleChange = () => {
+    changeIsEn((prev) => !prev);
+    changeLanguage(isEn ? "en" : "pl");
+  };
 
-      <button onClick={() => changeLanguage('pl')}>Polski</button>
-      <button onClick={() => changeLanguage('en')}>English</button>
-    </div>
+  return (
+    <button
+      onClick={() => handleChange()}
+      className="w-28 block text-center px-3 py-1 rounded bg-gray-100 dark:bg-cyan-600 dark:text-white"
+    >
+      {isEn ? "Polski" : "English"}
+    </button>
   );
 }
 

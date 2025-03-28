@@ -8,6 +8,7 @@ import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import { CustomModalProps } from "../types/Types";
 import { TaskContext } from "../App";
+import { useTranslation } from "react-i18next";
 
 const CustomModal: FC<CustomModalProps> = ({
   title,
@@ -23,8 +24,8 @@ const CustomModal: FC<CustomModalProps> = ({
   taskId,
 }) => {
   const [borderError, setBorderError] = useState(false);
-
   const { addTask, editTask } = useContext(TaskContext)!;
+  const { t }: any = useTranslation();
 
   dayjs.extend(utc);
   dayjs.extend(timezone);
@@ -67,33 +68,35 @@ const CustomModal: FC<CustomModalProps> = ({
       <div className="h-full overflow-y-auto">
         <h2 className="text-2xl font-semibold mb-4">{title} Task</h2>
         <p className="text-sm mb-4">
-          Enter any data you would like to have displayed in your To Do List.
+          {t(
+            "Enter any data you would like to have displayed in your To Do List."
+          )}
         </p>
 
         <div className="relative mb-4">
           {borderError && (
             <div className="absolute right-5 text-red-500 text-sm">
-              Error name field null or invalid
+              {t("Error name field null or invalid")}
             </div>
           )}
-          <label className="block mb-1">Name:</label>
+          <label className="block mb-1">{t("Name")}:</label>
           <input
             className={`w-full p-2 border rounded bg-white dark:bg-gray-700 dark:text-white ${
               borderError ? "border-2 border-red-500" : "border-gray-300"
             }`}
             onChange={(e) => setTaskName(e.target.value)}
-            value={taskName}
+            value={t(taskName)}
           />
         </div>
 
         <div className="relative mb-4">
           {borderError && (
             <div className="absolute right-5 text-red-500 text-sm">
-              Error dueDate field null or invalid
+              {t("Error dueDate field null or invalid")}
             </div>
           )}
           <div className="flex flex-row items-center mt-6">
-            <label className="block mb-1">Due date:</label>
+            <label className="block mb-1">{t("Due date")}:</label>
             <Datetime
               value={
                 typeof dueDate === "string"
@@ -111,24 +114,22 @@ const CustomModal: FC<CustomModalProps> = ({
           </div>
         </div>
 
-        {/* Description Field */}
         <div className="relative mb-6">
           {borderError && (
             <div className="absolute right-5 text-red-500 text-sm">
-              Error description field null or invalid
+              {t("Error description field null or invalid")}
             </div>
           )}
-          <label className="block mb-1">Description:</label>
+          <label className="block mb-1">{t("Description")}:</label>
           <textarea
             className={`w-full h-24 p-2 border rounded bg-white dark:bg-gray-700 dark:text-white ${
               borderError ? "border-2 border-red-500" : "border-gray-300"
             }`}
             onChange={(e) => setTaskDescription(e.target.value)}
-            value={taskDescription}
+            value={t(taskDescription)}
           />
         </div>
 
-        {/* Submit Button */}
         <div className="flex justify-end">
           <button
             className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
@@ -136,7 +137,7 @@ const CustomModal: FC<CustomModalProps> = ({
               handleModal(taskName, taskDescription, dueDate, taskId)
             }
           >
-            {isAdd ? "Add Task" : "Edit Task"}
+            {isAdd ? t("Add Task") : t("Edit Task")}
           </button>
         </div>
       </div>

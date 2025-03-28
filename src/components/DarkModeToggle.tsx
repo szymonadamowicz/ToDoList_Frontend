@@ -1,8 +1,10 @@
 import { useContext, useEffect } from "react";
 import { ThemeContext } from "../App";
+import { useTranslation } from "react-i18next";
 
 const DarkModeToggle = () => {
   const { theme, changeTheme } = useContext(ThemeContext)!;
+  const { t }: any = useTranslation();
 
   useEffect(() => {
     const html = document.documentElement;
@@ -15,10 +17,10 @@ const DarkModeToggle = () => {
 
   return (
     <button
-      className="w-28 block text-center px-3 py-1 rounded bg-gray-100 dark:bg-gray-700 dark:text-white"
+      className="w-36 block text-center px-3 py-1 rounded bg-gray-100 dark:bg-gray-700 dark:text-white"
       onClick={() => changeTheme()}
     >
-      {theme?.isDarkMode ? "🌙 Dark" : "☀️ Light"}
+      {theme?.isDarkMode ? t("🌙 Dark mode") : t("☀️ Light mode")}
     </button>
   );
 };

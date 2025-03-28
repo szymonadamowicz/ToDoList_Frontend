@@ -4,7 +4,6 @@ import CustomModal from "./Modal";
 import moment, { Moment } from "moment";
 import { TaskViewModel, TaskViewProps } from "../types/Types";
 import { TaskContext } from "../App";
-import LanguageToggle from "./LanguageToggle";
 import { useTranslation } from "react-i18next";
 
 const TaskView: React.FC<TaskViewProps> = ({ isCompletedPage }) => {
@@ -55,7 +54,7 @@ const TaskView: React.FC<TaskViewProps> = ({ isCompletedPage }) => {
     const due = dayjs(dueDate);
     const diffInMs = due.diff(now);
 
-    if (diffInMs <= 0) return "Past due";
+    if (diffInMs <= 0) return t("Past due");
 
     const totalMinutes = Math.floor(diffInMs / 60000);
     const days = Math.floor(totalMinutes / (60 * 24));
@@ -68,11 +67,9 @@ const TaskView: React.FC<TaskViewProps> = ({ isCompletedPage }) => {
   return (
     <div className="flex flex-wrap justify-center gap-[35px] flex-1 m-5 mt-5 p-5">
       {isLoading && tasks.length === 0 && (
-        <div className="text-gray-800 dark:text-white">fetching data...</div>
+        <div className="text-gray-800 dark:text-white">{t("fetching data...")}</div>
       )}
-      {isError && <div className="text-red-500">error fetching data</div>}
-      <LanguageToggle />
-
+      {isError && <div className="text-red-500">{t("error fetching data")}</div>}
       {tasks
         .filter((item) => (isCompletedPage ? item.isHidden : !item.isHidden))
         .map((item) => (
@@ -96,7 +93,7 @@ const TaskView: React.FC<TaskViewProps> = ({ isCompletedPage }) => {
           >
             {loadingId === item.id ? (
               <div className="flex-1 flex flex-col justify-center items-center text-gray-500">
-                <span className="text-lg font-semibold">Loading...</span>
+                <span className="text-lg font-semibold">{t("Loading...")}</span>
               </div>
             ) : (
               <>

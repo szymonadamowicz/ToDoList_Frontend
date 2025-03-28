@@ -1,8 +1,25 @@
 {
   "#root": "#źródło",
   "welcome": "Witamy",
-  "description": "opis",
+  "description": "Opis",
   "YYYY-MM-DDTHH:mm:ss": "YYYY-MM-DDTHH:mm:ss",
   "YYYY-MM-DD HH:mm": "YYYY-MM-DD HH:mm",
-  "timeLeft": "Pozostało: {{time}}"
+  "timeLeft": "Pozostało: {{time}}",
+  "🌙 Dark": "🌙 Ciemny",
+  "☀️ Light": "☀️ Jasny",
+  "Name": "Nazwa",
+  "Due date": "Termin",
+  "Description": "Opis",
+  "Add Task": "Dodaj zadanie",
+  "Edit Task": "Edytuj zadanie",
+  "To Do List": "Lista zadań",
+  "to do tasks": "Zadania do zrobienia",
+  "completed tasks": "Zakończone zadania",
+  "🌙 Dark mode": "🌙 Tryb ciemny",
+  "☀️ Light mode": "☀️ Tryb jasny",
+  "Loading...": "Ładowanie...",
+  "Edit": "Edytuj",
+  "Past due": "Po czasie",
+  "fetching data...": "Pobieranie danych ...",
+  "error fetching data": "Błąd pobieranie danych"
 }
