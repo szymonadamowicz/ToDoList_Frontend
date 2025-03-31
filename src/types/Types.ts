@@ -11,8 +11,8 @@ export type TaskViewModel = {
 
 export type ThemeModel = {
   isDarkMode: boolean;
-  language: boolean
-}
+  language: boolean;
+};
 
 export type CustomModalProps = {
   title: string;
@@ -30,4 +30,8 @@ export type CustomModalProps = {
 
 export type TaskViewProps = {
   isCompletedPage: boolean;
-}
+};
+
+export type TaskProps = {
+  task: TaskViewModel;
+};
