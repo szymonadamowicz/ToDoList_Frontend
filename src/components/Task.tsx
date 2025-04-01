@@ -84,7 +84,7 @@ const DraggableTask: React.FC<TaskProps> = ({ task }) => {
     <div ref={setNodeRef} style={dndStyle}>
       <div
         className={`relative flex flex-col transition-opacity duration-[1500ms] ease-in-out
-          w-full sm:w-[300px] h-auto min-h-[250px] rounded-2xl p-4 pt-2 shadow-md
+          w-full sm:w-[300px] md:w-[330px] h-auto min-h-[250px] rounded-2xl p-4 pt-2 shadow-md
           bg-white dark:bg-gray-800 text-black dark:text-white
           ${
             task.isCompleted
