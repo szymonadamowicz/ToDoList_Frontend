@@ -22,18 +22,18 @@ Nowoczesna aplikacja do zarządzania zadaniami (ToDo List) z interaktywnym przec
 - 🧠 **Context API** – global state management
 
 ## Project Structure
-
+```
 src/
-├── api/                # Backend communication
-├── components/         # UI components (Task, Navbar, Modal, etc.)
-├── locales/            # Translation files
-├── pages/              # Views (MainPage, CompletedTasks)
-├── services/           # Logic and model mapping
-├── i18n.ts             # i18n configuration
-├── App.tsx             # Main app logic
-├── index.tsx           # Entry point
-└── debug.ts            # Debugging tools
-
+├── api/
+├── components/ 
+├── locales/
+├── pages/
+├── services/
+├── i18n.ts
+├── App.tsx
+├── index.tsx
+└── debug.ts
+```
 ## Installation
 
 ```bash
