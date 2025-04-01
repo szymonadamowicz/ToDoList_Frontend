@@ -1,4 +1,4 @@
-const baseUrl = process.env.REACT_APP_API_URL || "http://localhost:7140";
+const baseUrl = process.env.REACT_APP_API_URL || "http://localhost:5000";
 
 export const fetchThemeApi = async () => {
   try {
