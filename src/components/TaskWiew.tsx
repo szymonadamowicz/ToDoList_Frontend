@@ -46,13 +46,11 @@ const TaskView: React.FC<TaskViewProps> = ({ isCompletedPage }) => {
 
     const updated = [...localTasks];
     const [movedTask] = updated.splice(fromIndex, 1);
-
     updated.splice(toIndex, 0, movedTask);
 
     setLocalTasks(updated);
     swapTasks(draggedId, targetId);
   };
-
   useEffect(() => {
     const interval = setInterval(() => {
       refreshTasks();
@@ -61,9 +59,8 @@ const TaskView: React.FC<TaskViewProps> = ({ isCompletedPage }) => {
     return () => clearInterval(interval);
     // eslint-disable-next-line
   }, []);
-
   return (
-    <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-[35px] m-5 mt-5 p-5">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-[35px] m-5 mt-5 p-5">
       {isLoading && tasks.length === 0 && (
         <div className="text-gray-800 dark:text-white">
           {t("fetching data...")}

@@ -18,7 +18,6 @@ const DraggableTask: React.FC<TaskProps> = ({ task }) => {
   const [taskDescription, setTaskDescription] = useState("");
   const [dueDate, setDueDate] = useState<Moment | string>(moment());
   const [editedTaskId, setEditedTaskId] = useState<number>();
-
   const [fadingOutIds, setFadingOutIds] = useState<number[]>([]);
 
   const { removeTask, setCompleted, setHidden } = useContext(TaskContext)!;
@@ -43,9 +42,7 @@ const DraggableTask: React.FC<TaskProps> = ({ task }) => {
     setLoadingId(id);
     await setCompleted(id);
     setLoadingId(null);
-
     setFadingOutIds((prev) => [...prev, id]);
-
     setTimeout(() => {
       setHidden(id);
     }, 1500);
@@ -87,7 +84,7 @@ const DraggableTask: React.FC<TaskProps> = ({ task }) => {
     <div ref={setNodeRef} style={dndStyle}>
       <div
         className={`relative flex flex-col transition-opacity duration-[1500ms] ease-in-out
-          w-[320px] min-w-[300px] max-w-[350px] h-[250px] rounded-2xl p-4 pt-2 shadow-md
+          w-full sm:w-[300px] h-auto min-h-[250px] rounded-2xl p-4 pt-2 shadow-md
           bg-white dark:bg-gray-800 text-black dark:text-white
           ${
             task.isCompleted
@@ -104,9 +101,10 @@ const DraggableTask: React.FC<TaskProps> = ({ task }) => {
           ref={setActivatorNodeRef}
           {...attributes}
           {...listeners}
-          className="absolute left-2 top-2 cursor-grab"
+          className="absolute left-2 top-[10px] cursor-grab"
+          style={{ touchAction: "none" }}
         >
-          :::
+          🟰
         </div>
 
         {loadingId === task.id ? (
@@ -116,7 +114,7 @@ const DraggableTask: React.FC<TaskProps> = ({ task }) => {
         ) : (
           <>
             <button
-              className="absolute top-2 right-[72px] flex items-center justify-center text-white bg-yellow-400 px-2 py-1 rounded hover:bg-yellow-500 w-[28px] h-[28px]"
+              className="absolute top-2 right-[72px] text-white bg-yellow-400 rounded hover:bg-yellow-500 w-[28px] h-[28px] flex justify-center items-center"
               onClick={() => handleOpenModal(task)}
             >
               ✎
@@ -136,25 +134,26 @@ const DraggableTask: React.FC<TaskProps> = ({ task }) => {
               isCompleted={task.isCompleted!}
             />
             <button
-              className="absolute top-2 right-10 flex items-center justify-center text-white bg-green-500 px-2 py-1 rounded hover:bg-green-600 w-[28px] h-[28px]"
+              className="absolute top-2 right-10 text-white bg-green-500 rounded hover:bg-green-600 w-[28px] h-[28px] flex justify-center items-center"
               onClick={() => handleSetCompleted(task.id)}
             >
               ✓
             </button>
             <button
-              className="absolute top-2 right-2 flex items-center justify-center text-white bg-red-500 px-2 py-1 rounded hover:bg-red-600 w-[28px] h-[28px]"
+              className="absolute top-2 right-2 text-white bg-red-500 rounded hover:bg-red-600 w-[28px] h-[28px] flex justify-center items-center"
               onClick={() => removeTask(task.id)}
             >
               ✕
             </button>
-            <h3 className="text-xl font-semibold ml-2 mb-2 w-[85%] overflow-hidden">
+
+            <h3 className="text-xl font-semibold ml-4 mb-2 w-[60%] overflow-hidden">
               {task.name}
             </h3>
             <div className="border-b border-gray-300 dark:border-gray-600 mb-2" />
-            <p className="h-[65%]">{task.description}</p>
+            <p className="min-h-[130px] break-words">{task.description}</p>
             <div className="border-b border-gray-300 dark:border-gray-600 mb-2" />
-            <div className="h-[15%] content-center">
-              <h3>
+            <div className="mt-auto">
+              <h3 className="text-sm font-medium">
                 {t("timeLeft", {
                   time: getTimeRemaining(
                     typeof task.dueDate === "string"

@@ -64,7 +64,7 @@ const CustomModal: FC<CustomModalProps> = ({
       onAfterOpen={() => isAdd && setDueDate(moment())}
       isOpen={isModalOpen}
       onRequestClose={() => setIsModalOpen(false)}
-      className="outline-none h-[80%] w-[90%] md:w-[40%] bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-xl mx-auto mt-12 text-gray-800 dark:text-white"
+      className="outline-none h-[70%] w-[90%] md:w-[40%] bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-xl mx-auto mt-12 text-gray-800 dark:text-white"
       overlayClassName="bg-black/50 fixed inset-0 z-40"
     >
       <div className="h-full overflow-y-auto">

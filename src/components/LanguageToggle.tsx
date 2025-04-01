@@ -15,8 +15,8 @@ function LanguageToggle() {
 
   return (
     <button
-      onClick={() => handleChange()}
-      className="w-28 block text-center px-3 py-1 rounded bg-cyan-500 dark:bg-cyan-700 font-semibold text-white"
+      onClick={handleChange}
+      className="w-32 sm:w-24 block text-center px-3 py-1 rounded bg-cyan-500 dark:bg-cyan-700 font-semibold text-white"
     >
       {theme?.language ? "English" : "Polski"}
     </button>

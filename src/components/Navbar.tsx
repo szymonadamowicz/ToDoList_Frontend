@@ -20,11 +20,11 @@ const Navbar: React.FC<TaskViewProps> = ({ isCompletedPage }) => {
   const navigate = useNavigate();
 
   return (
-    <div className="h-[60px] bg-purple-400 dark:bg-purple-700  w-full flex items-center px-6 shadow-md">
-      <h3 className="text-xl font-bold text-white flex-grow">
+    <div className="h-auto py-3 sm:h-[60px] bg-purple-400 dark:bg-purple-700 w-full flex flex-col sm:flex-row sm:items-center px-4 gap-2 sm:gap-0 sm:px-6 shadow-md">
+      <h3 className="text-xl font-bold text-white sm:flex-grow text-center sm:text-left">
         {t("To Do List")}
       </h3>
-      <div className="flex gap-3">
+      <div className="flex flex-wrap gap-2 justify-center sm:justify-end">
         {!isCompletedPage && (
           <button
             className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-1 rounded shadow"
