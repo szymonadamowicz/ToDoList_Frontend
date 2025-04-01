@@ -1,6 +1,8 @@
+const baseUrl = process.env.REACT_APP_API_URL || "http://localhost:7140";
+
 export const fetchThemeApi = async () => {
   try {
-    const res = await fetch("https://localhost:7140/theme");
+    const res = await fetch(`${baseUrl}/theme`);
     if (!res.ok) {
       console.log(`Fetching theme failed: ${res.status}`);
     }
@@ -12,7 +14,7 @@ export const fetchThemeApi = async () => {
 
 export const changeThemeApi = async () => {
   try {
-    const res = await fetch(`https://localhost:7140/theme/changeTheme`, {
+    const res = await fetch(`${baseUrl}/theme/changeTheme`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
     });
@@ -28,7 +30,7 @@ export const changeThemeApi = async () => {
 
 export const changeLanguageApi = async () => {
   try {
-    const res = await fetch(`https://localhost:7140/theme/changeLanguage`, {
+    const res = await fetch(`${baseUrl}/theme/changeLanguage`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
     });

@@ -1,8 +1,10 @@
 import { TaskViewModel } from "../types/Types";
 
+const baseUrl = process.env.REACT_APP_API_URL || "http://localhost:7140";
+
 export const fetchTasksApi = async () => {
   try {
-    const res = await fetch("https://localhost:7140/tasks");
+    const res = await fetch(`${baseUrl}/tasks`);
     if (!res.ok) {
       console.log(`Fetch tasks failed: ${res.status}`);
     }
@@ -14,7 +16,7 @@ export const fetchTasksApi = async () => {
 
 export const addTaskApi = async (task: TaskViewModel) => {
   try {
-    const res = await fetch("https://localhost:7140/tasks/add", {
+    const res = await fetch(`${baseUrl}/tasks/add`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -37,7 +39,7 @@ export const addTaskApi = async (task: TaskViewModel) => {
 
 export const removeTaskApi = async (id: number) => {
   try {
-    const res = await fetch(`https://localhost:7140/tasks/${id}`, {
+    const res = await fetch(`${baseUrl}/tasks/${id}`, {
       method: "DELETE",
     });
 
@@ -54,7 +56,7 @@ export const removeTaskApi = async (id: number) => {
 export const swapTasksApi = async (id1: number, id2: number) => {
   try {
     const res = await fetch(
-      `https://localhost:7140/tasks/swap?task1Id=${id1}&task2Id=${id2}`,
+      `${baseUrl}/tasks/swap?task1Id=${id1}&task2Id=${id2}`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -73,13 +75,10 @@ export const swapTasksApi = async (id1: number, id2: number) => {
 
 export const setCompletedApi = async (id1: number) => {
   try {
-    const res = await fetch(
-      `https://localhost:7140/tasks/setCompleted?task1Id=${id1}`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-      }
-    );
+    const res = await fetch(`${baseUrl}/tasks/setCompleted?task1Id=${id1}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+    });
 
     if (!res.ok) {
       console.log(`Set completed failed: ${res.status}`);
@@ -94,7 +93,7 @@ export const setCompletedApi = async (id1: number) => {
 export const editTaskApi = async (editedTask: TaskViewModel) => {
   try {
     const res = await fetch(
-      `https://localhost:7140/tasks/editTask?taskId=${editedTask.id}`,
+      `${baseUrl}/tasks/editTask?taskId=${editedTask.id}`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -119,13 +118,10 @@ export const editTaskApi = async (editedTask: TaskViewModel) => {
 
 export const setHiddenApi = async (taskId: number) => {
   try {
-    const res = await fetch(
-      `https://localhost:7140/tasks/setHidden?taskId=${taskId}`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-      }
-    );
+    const res = await fetch(`${baseUrl}/tasks/setHidden?taskId=${taskId}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+    });
 
     if (!res.ok) {
       console.log(`task set hidden failed: ${res.status}`);
