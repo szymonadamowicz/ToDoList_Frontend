@@ -1,50 +1,54 @@
-<<<<<<< HEAD
-# ToDoList_Frontend
-=======
-# Getting Started with Create React App
+# 📝 ToDo List App – Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Nowoczesna aplikacja do zarządzania zadaniami (ToDo List) z interaktywnym przeciąganiem zadań, trybem ciemnym, lokalizacją wielojęzyczną oraz automatycznym ukrywaniem zakończonych zadań po 24 godzinach.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- 🪄 **Drag & Drop** – dynamic reordering of tasks via drag-and-drop
+- 🌗 **Dark mode** – toggle between light and dark themes
+- 🌍 **i18n** – multilingual support (PL/EN) with auto-detection and toggle
+- 📆 **Task management** – create, edit, complete tasks; completed tasks are hidden after 24 hours
+- 🧩 **Responsive UI** – optimized for all screen sizes
+- 🔧 **Debug mode** – internal logging for state inspection
 
-### `npm start`
+## Tech Stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- ⚛️ **React** + **TypeScript**
+- 🎨 **Tailwind CSS** – styling and layout
+- 📦 **@dnd-kit** – drag-and-drop engine
+- 🌐 **react-i18next** – internationalization
+- 🕶️ **Dark Mode Toggle** – custom light/dark switching
+- 🔧 **Axios** – API communication
+- 🧠 **Context API** – global state management
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Project Structure
 
-### `npm test`
+src/
+├── api/                # Backend communication
+├── components/         # UI components (Task, Navbar, Modal, etc.)
+├── locales/            # Translation files
+├── pages/              # Views (MainPage, CompletedTasks)
+├── services/           # Logic and model mapping
+├── i18n.ts             # i18n configuration
+├── App.tsx             # Main app logic
+├── index.tsx           # Entry point
+└── debug.ts            # Debugging tools
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Installation
 
-### `npm run build`
+```bash
+npm install
+npm run start
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Usage
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. Add new tasks via the "+" button.
+2. Click the green checkmark to complete a task. It will fade out and disappear after 24 hours.
+3. Drag and drop tasks to reorder them. Changes are synced with the backend.
+4. Switch themes or language via the top navigation bar.
+5. View completed tasks on the "Completed" tab.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
->>>>>>> 033a3fd (Initialize project using Create React App)
+## Author
+Szymon Admowicz
+Created as part of a personal portfolio. Backend available separately.
