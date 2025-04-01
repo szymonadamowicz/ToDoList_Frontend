@@ -17,7 +17,7 @@ const DarkModeToggle = () => {
 
   return (
     <button
-      className="w-40 sm:w-[134px] block text-center px-3 py-1 rounded bg-gray-100 dark:bg-gray-700 font-semibold dark:text-white"
+      className="w-full sm:w-[144px] block text-center px-3 py-1 rounded bg-gray-100 dark:bg-gray-700 font-semibold dark:text-white"
       onClick={changeTheme}
     >
       {theme?.isDarkMode ? t("🌙 Dark mode") : t("☀️ Light mode")}

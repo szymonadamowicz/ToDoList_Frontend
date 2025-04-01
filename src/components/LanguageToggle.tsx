@@ -7,7 +7,7 @@ function LanguageToggle() {
   const { theme, changeLanguage } = useContext(ThemeContext)!;
 
   const handleChange = () => {
-    const newLang = theme?.language ? "pl" : "en";
+    const newLang = theme?.language ? "en" : "pl";
     i18n.changeLanguage(newLang);
     localStorage.setItem("lang", newLang);
     changeLanguage();
