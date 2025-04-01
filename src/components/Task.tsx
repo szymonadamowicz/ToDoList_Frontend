@@ -7,12 +7,10 @@ import { TaskContext } from "../App";
 import CustomModal from "./Modal";
 import { TaskProps, TaskViewModel } from "../types/Types";
 import { useTranslation } from "react-i18next";
-import {
-  defaultAnimateLayoutChanges,
-  AnimateLayoutChanges,
-} from "@dnd-kit/sortable";
+import { defaultAnimateLayoutChanges } from "@dnd-kit/sortable";
 
 const DraggableTask: React.FC<TaskProps> = ({ task }) => {
+  // eslint-disable-next-line
   const [_, setCurrentTime] = useState(new Date());
   const [loadingId, setLoadingId] = useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -135,6 +133,7 @@ const DraggableTask: React.FC<TaskProps> = ({ task }) => {
               dueDate={dueDate}
               setDueDate={setDueDate}
               taskId={editedTaskId!}
+              isCompleted={task.isCompleted!}
             />
             <button
               className="absolute top-2 right-10 flex items-center justify-center text-white bg-green-500 px-2 py-1 rounded hover:bg-green-600 w-[28px] h-[28px]"

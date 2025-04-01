@@ -9,7 +9,6 @@ import {
   setHiddenApi,
 } from "../api/ApiCallsTasks";
 import { TaskViewModel } from "../types/Types";
-import { Moment } from "moment";
 import { toTaskViewModel } from "./TaskViewModelMapper";
 
 export const useTaskService = () => {
@@ -41,11 +40,9 @@ export const useTaskService = () => {
   const refreshTasks = () => setRefresh((prev) => prev + 1);
 
   const addTask = async (
-    name: string,
-    description: string,
-    dueDate: string | Moment
+    task:TaskViewModel
   ) => {
-    const data = await addTaskApi(name, description, dueDate);
+    const data = await addTaskApi(task);
     if (!data) return setIsError(true);
     refreshTasks();
   };
@@ -69,12 +66,9 @@ export const useTaskService = () => {
   };
 
   const editTask = async (
-    id: number,
-    name: string,
-    description: string,
-    dueDate: string | Moment
+    editedTask:TaskViewModel
   ) => {
-    const data = await editTaskApi(id, name, description, dueDate);
+    const data = await editTaskApi(editedTask);
     if (!data) return setIsError(true);
     refreshTasks();
   };
@@ -95,5 +89,6 @@ export const useTaskService = () => {
     setHidden,
     isError,
     isLoading,
+    refreshTasks,
   };
 };

@@ -6,7 +6,7 @@ import "react-datetime/css/react-datetime.css";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
-import { CustomModalProps } from "../types/Types";
+import { CustomModalProps, TaskViewModel } from "../types/Types";
 import { TaskContext } from "../App";
 import { useTranslation } from "react-i18next";
 
@@ -21,6 +21,7 @@ const CustomModal: FC<CustomModalProps> = ({
   setTaskDescription,
   dueDate,
   setDueDate,
+  isCompleted,
   taskId,
 }) => {
   const [borderError, setBorderError] = useState(false);
@@ -30,22 +31,23 @@ const CustomModal: FC<CustomModalProps> = ({
   dayjs.extend(utc);
   dayjs.extend(timezone);
 
-  const handleModal = (
-    name: string,
-    description: string,
-    dueDate: string | Moment,
-    taskId?: number
-  ) => {
-    if (name !== "" && description !== "") {
+  const handleModal = () => {
+    if (taskName !== "" && taskDescription !== "") {
       const formattedDueDate = dayjs(
         typeof dueDate === "string" ? new Date(dueDate) : dueDate.toDate()
       )
         .tz(Intl.DateTimeFormat().resolvedOptions().timeZone)
         .format("YYYY-MM-DDTHH:mm:ss");
 
-      isAdd
-        ? addTask(name, description, formattedDueDate)
-        : editTask(taskId!, name, description, formattedDueDate);
+      const task: TaskViewModel = {
+        id: taskId ?? 0,
+        name: taskName,
+        description: taskDescription,
+        dueDate: formattedDueDate,
+        isCompleted: isCompleted,
+      };
+
+      isAdd ? addTask(task) : editTask(task);
 
       setIsModalOpen(false);
       setTaskName("");
@@ -133,9 +135,7 @@ const CustomModal: FC<CustomModalProps> = ({
         <div className="flex justify-end">
           <button
             className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-            onClick={() =>
-              handleModal(taskName, taskDescription, dueDate, taskId)
-            }
+            onClick={handleModal}
           >
             {isAdd ? t("Add Task") : t("Edit Task")}
           </button>

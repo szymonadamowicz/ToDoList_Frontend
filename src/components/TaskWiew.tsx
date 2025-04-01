@@ -8,7 +8,6 @@ import {
 } from "@dnd-kit/core";
 import {
   SortableContext,
-  horizontalListSortingStrategy,
   rectSortingStrategy,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
@@ -18,7 +17,8 @@ import { useTranslation } from "react-i18next";
 import { TaskViewProps } from "../types/Types";
 
 const TaskView: React.FC<TaskViewProps> = ({ isCompletedPage }) => {
-  const { tasks, swapTasks, isLoading, isError } = useContext(TaskContext)!;
+  const { tasks, swapTasks, isLoading, isError, refreshTasks } =
+    useContext(TaskContext)!;
   const [localTasks, setLocalTasks] = useState(tasks);
   const { t }: any = useTranslation();
 
@@ -53,8 +53,17 @@ const TaskView: React.FC<TaskViewProps> = ({ isCompletedPage }) => {
     swapTasks(draggedId, targetId);
   };
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      refreshTasks();
+    }, 15 * 60 * 1000);
+
+    return () => clearInterval(interval);
+    // eslint-disable-next-line
+  }, []);
+
   return (
-    <div className="grid grid-cols-4 gap-[35px] m-5 mt-5 p-5">
+    <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-[35px] m-5 mt-5 p-5">
       {isLoading && tasks.length === 0 && (
         <div className="text-gray-800 dark:text-white">
           {t("fetching data...")}
@@ -66,7 +75,7 @@ const TaskView: React.FC<TaskViewProps> = ({ isCompletedPage }) => {
       )}
 
       {filteredTasks.length === 0 && !isLoading && (
-        <div className="text-gray-500 dark:text-gray-300 italic">
+        <div className="absolute left-1/2 -translate-x-1/2 text-gray-500 dark:text-gray-300 italic text-center">
           {t("No tasks available")}
         </div>
       )}
@@ -74,7 +83,11 @@ const TaskView: React.FC<TaskViewProps> = ({ isCompletedPage }) => {
       <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
         <SortableContext
           items={localTasks.map((task) => task.id)}
-          strategy={localTasks.length > 4 ? verticalListSortingStrategy : rectSortingStrategy} 
+          strategy={
+            localTasks.length > 4
+              ? verticalListSortingStrategy
+              : rectSortingStrategy
+          }
         >
           {filteredTasks.map((task) => (
             <DraggableTask key={task.id} task={task} />

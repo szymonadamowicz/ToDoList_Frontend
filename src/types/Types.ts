@@ -5,8 +5,8 @@ export type TaskViewModel = {
   name: string;
   description: string;
   dueDate: string | Moment;
-  isCompleted: boolean;
-  isHidden: boolean;
+  isCompleted?: boolean;
+  isHidden?: boolean;
 };
 
 export type ThemeModel = {
@@ -26,6 +26,7 @@ export type CustomModalProps = {
   dueDate: Moment | string;
   setDueDate: (dueDate: Moment | string) => void;
   taskId?: number;
+  isCompleted?:boolean
 };
 
 export type TaskViewProps = {
