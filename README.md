@@ -1,54 +1,56 @@
-# 📝 ToDo List App – Frontend
+# ToDo List App – Frontend
 
-Nowoczesna aplikacja do zarządzania zadaniami (ToDo List) z interaktywnym przeciąganiem zadań, trybem ciemnym, lokalizacją wielojęzyczną oraz automatycznym ukrywaniem zakończonych zadań po 24 godzinach.
+This is the frontend for the ToDo List application – a modern interface for managing tasks with drag-and-drop functionality, dark mode, multilingual support, and automatic hiding of completed tasks after 24 hours.
 
 ## Features
 
-- 🪄 **Drag & Drop** – dynamic reordering of tasks via drag-and-drop
-- 🌗 **Dark mode** – toggle between light and dark themes
-- 🌍 **i18n** – multilingual support (PL/EN) with auto-detection and toggle
-- 📆 **Task management** – create, edit, complete tasks; completed tasks are hidden after 24 hours
-- 🧩 **Responsive UI** – optimized for all screen sizes
-- 🔧 **Debug mode** – internal logging for state inspection
+- Drag and drop task reordering
+- Light and dark theme toggling
+- Multilingual support (English/Polish) with auto-detection
+- Task creation, editing, completion, and auto-hiding after 24 hours
+- Responsive UI for all screen sizes
+- Debug mode for internal state inspection
 
 ## Tech Stack
 
-- ⚛️ **React** + **TypeScript**
-- 🎨 **Tailwind CSS** – styling and layout
-- 📦 **@dnd-kit** – drag-and-drop engine
-- 🌐 **react-i18next** – internationalization
-- 🕶️ **Dark Mode Toggle** – custom light/dark switching
-- 🔧 **Axios** – API communication
-- 🧠 **Context API** – global state management
+- React with TypeScript
+- Tailwind CSS for styling
+- @dnd-kit for drag-and-drop interactions
+- react-i18next for localization
+- Axios for API communication
+- Context API for global state management
 
 ## Project Structure
+
 ```
 src/
-├── api/
-├── components/ 
-├── locales/
-├── pages/
-├── services/
-├── i18n.ts
-├── App.tsx
-├── index.tsx
-└── debug.ts
+├── api/            // API service definitions
+├── components/     // Reusable UI components
+├── locales/        // Language translation files
+├── pages/          // Application pages
+├── services/       // Business logic and state handling
+├── i18n.ts         // Localization configuration
+├── App.tsx         // Root component
+├── index.tsx       // Entry point
+└── debug.ts        // Debug utilities
 ```
+
 ## Installation
 
-```bash
-npm install
-npm run start
-```
+1. Install dependencies:
+   ```
+   npm install
+   ```
+
+2. Run the application:
+   ```
+   npm run start
+   ```
 
 ## Usage
 
-1. Add new tasks via the "+" button.
-2. Click the green checkmark to complete a task. It will fade out and disappear after 24 hours.
-3. Drag and drop tasks to reorder them. Changes are synced with the backend.
-4. Switch themes or language via the top navigation bar.
-5. View completed tasks on the "Completed" tab.
-
-## Author
-Szymon Admowicz
-Created as part of a personal portfolio. Backend available separately.
+- Add tasks using the "+" button.
+- Mark a task as completed with the checkmark icon; it will disappear after 24 hours.
+- Reorder tasks via drag-and-drop.
+- Switch themes and languages using the navigation bar.
+- View completed tasks under the "Completed" tab.
